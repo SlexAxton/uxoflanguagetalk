@@ -349,12 +349,312 @@ print '&lt;/html>';
           &nbsp;
 
           <pre><code contenteditable>if (num === 1) {
-            return 'You have 1 new message';
+            return 'You have 1 new message.';
           }
           else {
             return 'You have ' + num + ' new messages.';
           }
           </code></pre>
+        </section>
+
+        <section data-markdown class="oneliner">
+          ## Let's add spanish...
+        </section>
+
+        <section data-markdown>
+          <pre style="margin-top:-2%;"><code contenteditable>if (lang == 'en') {
+          &nbsp; if (num === 1) {
+              return 'You have 1 new message.';
+            }
+            else {
+              return 'You have ' + num + ' new messages.';
+            }
+          }
+          else if (lang == 'es') {
+            if (num === 1) {
+              // close enough
+              return 'Tienes una message nueva.';
+            }
+            else {
+              return 'Tienes ' + num + ' messages nuevas.';
+            }
+          }
+          </code></pre>
+        </section>
+
+        <section data-markdown class="oneliner">
+          ## Pretty ugly, and coupled
+          ## directly into your _app_ code.
+        </section>
+
+        <section>
+          <section data-markdown class="oneliner">
+            ## *plus*
+            ## consider these commonly
+            ## supported languages
+          </section>
+
+          <section>
+            <pre style="margin-top:-3%;"><code>
+am  bn  cs  de  es  fa  fr  gsw hi  id  it kn
+<br />
+ln  mk  mr  nl  pl  ru  sl  sv  te  tr  vi ar
+<br />
+br  cy  el  et  fi  ga  gu  hr  in  iw  ko lt
+<br />
+ml  ms  no  pt  shi sq  sw  th  uk  zh  bg ca
+<br />
+da  en  eu  fil gl  he  hu  is  ja  lag lv mo
+<br />
+mt  or  ro  sk  sr  ta  tl  ur
+            </code></pre>
+          </section>
+
+          <section data-markdown class="oneliner">
+            <h2 style="margin-top:-5%;">Where's your</h2>
+
+            ## *if-statement-pluralization*
+            # *God*
+            ## Now?!
+          </section>
+
+
+        </section>
+
+        <section>
+          <section data-markdown class="oneliner">
+            ## I know what you're thinking
+          </section>
+
+          <section data-markdown class="oneliner">
+            ## Richard Stallman hath fought
+            ## the i18n ninjas and bestoweth
+            ## *GNU Gettext* among us.
+          </section>
+
+          <section data-markdown class="oneliner">
+            <div style="margin-top:2%;"></div>
+
+            ![img/stallman.png](img/stallman.png)
+          </section>
+
+          <section data-markdown class="oneliner">
+            ## I thought so too.
+
+            <aside class="notes">
+              But we'll get back to that.
+            </aside>
+          </section>
+        </section>
+
+        <section data-markdown class="oneliner">
+          ## Navigating the
+          ## *Message* Landscape
+        </section>
+        <section>
+          <section data-markdown class="oneliner">
+            # *properties files*
+          </section>
+
+          <section data-markdown class="oneliner">
+            ## Usually just for i18n
+            ### (if you can call it that)
+          </section>
+
+          <section data-markdown>
+            ## Key Value Pairs
+
+            <pre><code contenteditable>var properties_en = {
+            &nbsp "button_text" : "Submit",
+              "invalid_msg" : "Please try again."
+            };
+            &nbsp;
+            var properties_es = {
+              "button_text" : "Submitar",
+              "invalid_msg" : "Por favor, trya againo"
+            };
+            </code></pre>
+          </section>
+
+          <section data-markdown>
+            ## Use keys in templates instead of english
+
+            &nbsp;
+
+            <pre><code contenteditable>&lt;form&gt;
+             &lt;input value="{{properties.button_text}}" name="s1" /&gt;
+             &lt;span class="hidden"&gt;{{properties.invalid_msg}}&lt;span&gt;
+            &lt;/form&gt;
+            </code></pre>
+          </section>
+
+          <section data-markdown class="oneliner">
+            ## *Common everywhere*
+            ## (Java/Spring, Rails, etc)
+          </section>
+
+          <section data-markdown class="oneliner">
+            ## Doesn't really address any of the hard
+            ## problems except rendering different
+            ## strings for different locales
+          </section>
+
+          <section data-markdown class="oneliner">
+            ## Lot's of time they'll add
+            ## *`sprintf`*
+          </section>
+
+          <section data-markdown>
+            ## Properties + Interpolation
+
+            &nbsp;
+            &nbsp;
+
+            <pre><code contenteditable>var properties_en = {
+            &nbsp "msg_count" : "You have %d messages.",
+            };
+            &nbsp;
+            sprintf( properties_en.msg_count, num_msgs );
+            </code></pre>
+
+            &nbsp;
+
+            ## Look *familiar*?
+          </section>
+        </section>
+
+        <section>
+          <section data-markdown class="oneliner">
+            ## So we can *switch out* messages
+            ## and we can *interpolate* data into them.
+          </section>
+          <section data-markdown class="oneliner">
+            ## But they're incorrectly *pluralized* and
+            ## devoid of *gender* or *context*
+            ## (and still more!)
+          </section>
+          <section data-markdown class="oneliner">
+            ## Not to mention *authoring* templates
+            ## with no messages to be seen
+            ## starts to suck fast.
+          </section>
+        </section>
+
+        <section data-markdown class="oneliner">
+          # Back to *Stallman*
+        </section>
+
+
+
+        <section>
+          <section data-markdown>
+            # Gettext
+            # &nbsp;
+
+            ## *Plural Forms* and *PO Files*
+          </section>
+
+          <section data-markdown class="oneliner">
+            ## Decouples data and message
+          </section>
+
+          <section data-markdown class="oneliner">
+            ## Decouples data and message
+            ## *and some locale specifics*
+          </section>
+
+          <section data-markdown>
+            <h2 style="margin-top:-4%;">PO Files (as json, cause .po is uggers)</h2>
+
+            <pre><code contenteditable>{
+            &nbsp; "locale" : "en_US",
+              "plural_form" : function (n) {
+                if (n === 1) {
+                  return 1;
+                }
+                return 0;
+              },
+              "messages" : {
+                "key" : [
+                  "There is 1 message.",
+                  "There are %d messages."
+                ]
+              }
+            }</code></pre>
+          </section>
+
+          <section data-markdown>
+            ## *Plural Form* Functions
+
+            &nbsp;
+
+            These are executed at runtime to see
+            which of the strings to return.
+
+            &nbsp;
+
+            <pre><code contenteditable>var msg = gettext('key', msg_count);
+            return sprintf(msg, msg_count);
+            </code></pre>
+          </section>
+
+          <section data-markdown>
+            <h2 style="margin-top:-6%;">Contexts for Gender</h2>
+
+            <pre><code contenteditable>{
+            &nbsp; "locale" : "en_US",
+              "plural_form" : function (n) {
+                if (n === 1) { return 1; }
+                return 0;
+              },
+              "messages" : {
+                "male*key" : [
+                  "He has 1 message.",
+                  "He has %d messages."
+                ],
+                "female*key" : [
+                  "She has 1 message.",
+                  "She has %d messages."
+                ]
+              }
+            }</code></pre>
+
+            <aside class="notes">
+              It's actually a non-display unicode character that's used as the sentinel.
+            </aside>
+          </section>
+        </section>
+
+        <section>
+          <section data-markdown class="oneliner">
+            <img src="img/jed.png" alt="Jed" style="margin-top:-3%;" />
+          </section>
+
+          <section data-markdown>
+            <pre style="margin-top:-7%;"><code contenteditable>var i18n = new Jed({ locale_data: { ... } });
+&nbsp;
+// Use the chainable API
+&nbsp;
+i18n.translate( "There is one translation." )
+    .onDomain( "messages" )
+    .withContext( "male" )
+    .ifPlural( num, "There are %d translations." )
+    .fetch( num );
+&nbsp;
+// Or kick it old school
+&nbsp;
+var out = i18n.dnpgettext(
+  "messages",
+  "male",
+  "There is one translation.",
+  "There are %d translations.",
+  num
+);
+
+Jed.sprintf( out, num );
+            </code></pre>
+          </section>
+
 
         </section>
       </div>
