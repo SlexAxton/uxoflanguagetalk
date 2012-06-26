@@ -21,6 +21,7 @@
     <link rel="stylesheet" href="css/print.css" type="text/css" media="print">
 
     <link rel="stylesheet" href="lib/zenburn.css">
+    <script src="js/messageformat.js"></script>
     <style type="text/css">
       body .reveal .slides {
         width : 1280px;
@@ -39,6 +40,9 @@
       }
       .reveal .oneliner h3 {
         line-height: 1;
+      }
+      .reveal .tall {
+        margin-top: -60px;
       }
       body .reveal em {
         font-style : normal;
@@ -167,11 +171,144 @@
             </aside>
           </section>
 
-          <section data-markdown>
-
+          <section data-markdown class="oneliner">
+            # A Brief History of
+            # *String Concatenation*
           </section>
+
+          <section data-markdown class="tall">
+            # 1986
+
+            <img src="img/1986.png" style="box-shadow:0 0 30px #333333;" />
+
+            &nbsp;
+            Static text files ruled the web.
+          </section>
+
+          <section data-markdown class="oneliner">
+            # Some time passes
+          </section>
+
+          <section data-markdown class="oneliner">
+            People desire to
+            *customize content*
+            based on the person on the page
+          </section>
+
+          <section data-markdown class="oneliner">
+            Enter the era of
+            ## *Literally Just*
+            ## *Outputting Strings*
+          </section>
+
+          <section data-markdown>
+          # 1993 : CGI-BIN
+          <pre><code contenteditable>#!/usr/bin/perl
+
+print "Content-type:text/html\r\n\r\n";
+print '&lt;html>';
+print '&lt;head>';
+print '&lt;title>Hello Word - First CGI Program&lt;/title>';
+print '&lt;/head>';
+print '&lt;body>';
+print '&lt;h2>Hello Word! This is my 1st CGI app!&lt;/h2>';
+print '&lt;/body>';
+print '&lt;/html>';
+&nbsp;
+1;
+</code></pre>
+          </section>
+
+          <section data-markdown class="oneliner">
+            Enter the era of
+            *Crappy Templates*
+            that have enough logic to make things work.
+          </section>
+
+          <section data-markdown>
+            # 1995
+
+            <pre><code contenteditable>&lt;?php if ( isset($GET['USER'] ) { ?&gt;
+                Welcome &lt;?= $GET['USER']; ?&gt;!
+            &lt;?php
+            }
+            ?&gt;
+            </code></pre>
+
+            &nbsp;
+            *PHP* (Personal Home Page) is released.
+          </section>
+
+          <section data-markdown class="oneliner">
+            Nearly 10 Years of
+            ## *The String Concatenation*
+            # *Dark Ages*
+          </section>
+
+          <section data-markdown>
+            # 2004-Present
+
+            <pre style="margin-top:100px;"><code contenteditable>var data = model.get('user');
+            render(userTemplate(data));
+            </code></pre>
+
+            &nbsp;
+            *MVC Frameworks* promote data/presentation decoupling
+
+            &nbsp;
+            *Logicless templates* come into popularity
+          </section>
+
         </section>
 
+        <section data-markdown class="oneliner">
+          ## So we can finally render
+          # *HTML*
+        </section>
+
+        <section data-markdown class="oneliner">
+          ## What about rendering a sentence?
+        </section>
+
+        <section data-markdown>
+          # A Templated Sentence
+
+          <pre style="margin-top:100px;"><code contenteditable>// Handlebars template
+          Welcome to the site, {{user_name}}!
+          </code></pre>
+
+          &nbsp;
+          ## Seems *good*!
+        </section>
+
+        <section data-markdown class="oneliner">
+          ## Let's try another.
+        </section>
+
+        <section data-markdown>
+          # Another Templated Sentence
+
+          <pre style="margin-top:100px;"><code contenteditable>// Handlebars template
+          Hi {{user_name}}, you have {{msg_count}} new messages!
+          </code></pre>
+
+          &nbsp;
+          ## Seems *good*?!?!
+        </section>
+
+        <section data-markdown class="oneliner">
+          # *nope.*
+        </section>
+
+        <section>
+          <section data-markdown class="oneliner">
+            ## Hi *Alex*, you have *1* new messages!
+          </section>
+
+          <section data-markdown class="oneliner">
+            ## *gross.*
+          </section>
+        </section>
 
       </div>
       <!--
