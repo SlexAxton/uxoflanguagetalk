@@ -14,9 +14,6 @@
     techniques to help prepare you to write apps that don't sound like Borat.">
     <meta name="author" content="Alex Sexton">
 
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-
     <link href='css/fonts.css' rel='stylesheet' type='text/css'>
 
     <link rel="stylesheet" href="css/reset.css">
@@ -52,6 +49,9 @@
         text-transform : uppercase;
         font-weight : bold;
       }
+      #reveal aside.notes {
+        display: none;
+      }
     </style>
   </head>
 
@@ -75,11 +75,19 @@
             // Delicously hacky. Look away.
           if( navigator.userAgent.match( /(iPhone|iPad|iPod|Android)/i ) ) document.write( '<p style="color: rgba(0,0,0,0.3); text-shadow: none;">('+'Tap to navigate'+')</p>' );
           </script>
+
+          <aside class="notes">
+            Notes for slide 1
+          </aside>
         </section>
 
         <section>
           <section data-markdown class="oneliner">
             # *Briefly*
+
+            <aside class="notes">
+              Notes for slide 2
+            </aside>
           </section>
 
           <section data-markdown class="oneliner">
@@ -91,12 +99,44 @@
 
             &nbsp;
 
-            *No Conozco Pantelones Verde*
+            *No Conozco Pantelones Verdes*
           </section>
 
           <section data-markdown class="oneliner">
             Let's call me an *enabler* of those people who can speak with grace and restraint. *;)*
           </section>
+        </section>
+
+        <section>
+          <section data-markdown>
+            ## Thing(s) about *Alex*
+
+            <img src="img/alexsexton.jpg" alt="alex sexton" style="width:25%;" />
+          </section>
+          <section data-markdown class="oneliner">
+            I *like* to build JavaScript programs
+          </section>
+          <section data-markdown class="oneliner">
+            My mom was an english teacher
+
+            &nbsp;
+
+            <small>(I think)</small>
+          </section>
+          <section data-markdown class="oneliner">
+            8 inch vertical jump
+
+            &nbsp;
+
+            *Bench* 115 lbs
+
+            *Squat* 250 lbs
+          </section>
+        </section>
+
+        <section>
+          <img src="img/thegdb_quote.jpg" alt="Tweet: Web programming is the science of coming up with increasingly complicated ways of concatenating strings."
+          style="margin-top:80px;box-shadow:0 0 30px #222; width:60%;" />
         </section>
       </div>
       <!--
@@ -197,7 +237,47 @@
        });
 
      }());
- </script>
+   </script>
+
+    <!-- the next two lines enable the speaker notes server -->
+    <script src="socket.io/socket.io.js"></script>
+    <script>
+(function() {
+  // don't emit events from inside the previews themselves
+  var qs = window.location.href.split('?');
+  if (qs.length > 1 && qs[1].match('receiver')) { return; }
+
+  var socket = io.connect(window.location.origin);
+  var socketId = Math.random().toString().slice(2);
+  console.log('View slide notes at ' + window.location.origin + '/_notes/' + socketId);
+
+  Reveal.addEventListener( 'slidechanged', function( event ) {
+    var nextindexh;
+    var nextindexv;
+    var slideElement = event.srcElement;
+
+    if (slideElement.nextElementSibling && slideElement.parentNode.nodeName == 'SECTION') {
+      nextindexh = event.indexh;
+      nextindexv = event.indexv + 1;
+    } else {
+      nextindexh = event.indexh + 1;
+      nextindexv = 0;
+    }
+
+    var notes = slideElement.querySelector('aside.notes');
+    var slideData = {
+      notes : notes ? notes.innerHTML : '',
+      indexh : event.indexh,
+      indexv : event.indexv,
+      nextindexh : nextindexh,
+      nextindexv : nextindexv,
+      socketId : socketId
+    };
+
+    socket.emit('slidechanged', slideData);
+  } );
+}());
+    </script>
 
   </body>
 </html>
