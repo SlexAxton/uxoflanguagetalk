@@ -308,8 +308,55 @@ print '&lt;/html>';
           <section data-markdown class="oneliner">
             ## *gross.*
           </section>
+
+          <section data-markdown class="oneliner">
+            # The *UX* of Language
+          </section>
         </section>
 
+        <section data-markdown class="oneliner">
+          Our traditional way of concatenating
+          strings together is *not sufficient*
+          when those strings form a sentence.
+        </section>
+
+        <section data-markdown class="oneliner">
+          ## *POLL*
+
+          Do the visitors of your site care
+          more about well-formed markup or
+          well-formed sentences?
+
+          <aside class="notes">
+            How many of you optimize markup to output prettily
+            and then output sentences like that?
+          </aside>
+        </section>
+
+        <section data-markdown class="oneliner">
+          ## We can do *better*
+        </section>
+
+        <section data-markdown class="oneliner">
+          ## Consider the previous example
+
+          *>* You have 2 new messages.
+        </section>
+
+        <section data-markdown>
+          ## Plural Branching
+
+          &nbsp;
+
+          <pre><code contenteditable>if (num === 1) {
+            return 'You have 1 new message';
+          }
+          else {
+            return 'You have ' + num + ' new messages.';
+          }
+          </code></pre>
+
+        </section>
       </div>
       <!--
           <pre class="thin"><code contenteditable>function Module () {
