@@ -48,6 +48,18 @@
         -webkit-transform: scale(0.25);
         -webkit-transform-origin: 0 0;
       }
+
+      #clock {
+        position: fixed;
+        bottom: 10px;
+        right: 10px;
+        color: #333;
+        display: inline-block;
+        font-size: 112px;
+        font-weight: bold;
+        font-family: helvetica;
+        margin: 30px 50px;
+      }
     </style>
   </head>
 
@@ -61,6 +73,8 @@
       <iframe src="/?receiver" width="640" height="512" id="next-slide"></iframe>
     </div>
     <div id="notes"></div>
+
+    <div id="clock"></div>
 
     <script src="/socket.io/socket.io.js"></script>
 
@@ -79,6 +93,18 @@
       slides.contentWindow.Reveal.navigateTo(data.indexh, data.indexv);
       nextSlide.contentWindow.Reveal.navigateTo(data.nextindexh, data.nextindexv);
     });
+
+
+(function () {
+  var clock = document.getElementById('clock');
+  var setTime = function(){
+    var now = new Date();
+    clock.innerHTML = now.getHours() + ':' + now.getMinutes();
+  };
+  setTime();
+  setInterval(setTime, 1000);
+
+})();
     </script>
 
   </body>

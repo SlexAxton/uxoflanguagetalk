@@ -22,34 +22,34 @@
 
     <link rel="stylesheet" href="lib/zenburn.css">
     <style type="text/css">
-      body #reveal .slides {
+      body .reveal .slides {
         width : 1280px;
         margin-left : -640px;
       }
-      #reveal pre code {
+      .reveal pre code {
         font-size : 34px;
         line-height : 38px;
       }
-      #reveal pre.thin {
+      .reveal pre.thin {
         width: 67%;
       }
-      #reveal .oneliner {
+      .reveal .oneliner {
         padding-top : 12%;
         font-size : 1.4em;
       }
-      #reveal .oneliner h3 {
+      .reveal .oneliner h3 {
         line-height: 1;
       }
-      body #reveal em {
+      body .reveal em {
         font-style : normal;
         font-size : 1.2em;
         color : #A6E22E;
       }
-      body #reveal .oneliner em {
+      body .reveal .oneliner em {
         text-transform : uppercase;
         font-weight : bold;
       }
-      #reveal aside.notes {
+      .reveal aside.notes {
         display: none;
       }
     </style>
@@ -57,7 +57,7 @@
 
   <body>
 
-    <div id="reveal">
+    <div class="reveal">
 
       <!-- Used to fade in a background when a specific slide state is reached -->
       <div class="state-background"></div>
@@ -91,7 +91,14 @@
           </section>
 
           <section data-markdown class="oneliner">
-            There's a lot of pressure for someone who is talking on *The UX of Language* to speak eloquently.
+            There's a lot of pressure for
+            someone who is talking on
+            *The UX of Language*
+            to speak eloquently.
+
+            <aside class="notes">
+              Notes for slide 2b
+            </aside>
           </section>
 
           <section data-markdown class="oneliner">
@@ -100,10 +107,18 @@
             &nbsp;
 
             *No Conozco Pantelones Verdes*
+            <aside class="notes">
+              Notes for slide 2c
+            </aside>
           </section>
 
           <section data-markdown class="oneliner">
-            Let's call me an *enabler* of those people who can speak with grace and restraint. *;)*
+            Let's call me an
+            *enabler*
+            of those people who can speak
+            with grace and restraint.
+
+            *;)*
           </section>
         </section>
 
@@ -254,8 +269,9 @@
   Reveal.addEventListener( 'slidechanged', function( event ) {
     var nextindexh;
     var nextindexv;
-    var slideElement = event.srcElement;
+    var slideElement = event.currentSlide;
 
+    console.log(event);
     if (slideElement.nextElementSibling && slideElement.parentNode.nodeName == 'SECTION') {
       nextindexh = event.indexh;
       nextindexv = event.indexv + 1;
