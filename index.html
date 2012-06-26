@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+
+    <title>The UX of Language | Alex Sexton | jQueryCon SF 2012</title>
+
+    <meta name="description" content="There are 1 thing(s) that you have probably noticed about
+    l10n and I18n in your JavaScript App(s). The sentences, even in english, are as ridiculous as
+    the first one in this paragraph. Sure, you may be used to it, but it's a crappy user experience.
+    There's lots you can do to make your data driven sentences valid, even expressive, in your
+    language, and then expand that to any language. This talk will round up a set of tools and
+    techniques to help prepare you to write apps that don't sound like Borat.">
+    <meta name="author" content="Alex Sexton">
+
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+    <link href='css/fonts.css' rel='stylesheet' type='text/css'>
+
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/print.css" type="text/css" media="print">
+
+    <link rel="stylesheet" href="lib/zenburn.css">
+    <style type="text/css">
+      body #reveal .slides {
+        width : 1280px;
+        margin-left : -640px;
+      }
+      #reveal pre code {
+        font-size : 34px;
+        line-height : 38px;
+      }
+      #reveal pre.thin {
+        width: 67%;
+      }
+      #reveal .oneliner {
+        padding-top : 15%;
+        font-size : 1.4em;
+      }
+      #reveal .oneliner h3 {
+        line-height: 1;
+      }
+      body #reveal em {
+        font-style : normal;
+        font-size : 1.2em;
+        color : #A6E22E;
+      }
+      body #reveal .oneliner em {
+        text-transform : uppercase;
+        font-weight : bold;
+      }
+    </style>
+  </head>
+
+  <body>
+
+    <div id="reveal">
+
+      <!-- Used to fade in a background when a specific slide state is reached -->
+      <div class="state-background"></div>
+
+      <!-- Any section element inside of this container is displayed as a slide -->
+      <div class="slides">
+        <section data-markdown class="oneliner">
+          # The *UX* of Language
+
+          <br />
+
+          ### It are very importants.
+
+          <script>
+            // Delicously hacky. Look away.
+          if( navigator.userAgent.match( /(iPhone|iPad|iPod|Android)/i ) ) document.write( '<p style="color: rgba(0,0,0,0.3); text-shadow: none;">('+'Tap to navigate'+')</p>' );
+          </script>
+        </section>
+
+        <section>
+          <section data-markdown class="oneliner">
+            # *Briefly*
+          </section>
+
+          <section data-markdown class="oneliner">
+            There's a lot of pressure for someone who is talking on *The UX of Language* to speak eloquently.
+          </section>
+
+          <section data-markdown class="oneliner">
+            Let's call me an *enabler* of those people who can speak with grace and restraint. *;)*
+          </section>
+        </section>
+      </div>
+      <!--
+          <pre class="thin"><code contenteditable>function Module () {
+            return {
+              someStuff: { ... }
+            };
+          }
+          </code></pre>
+      -->
+      <!-- The navigational controls UI -->
+      <aside class="controls">
+        <a class="left" href="#">&#x25C4;</a>
+        <a class="right" href="#">&#x25BA;</a>
+        <a class="up" href="#">&#x25B2;</a>
+        <a class="down" href="#">&#x25BC;</a>
+      </aside>
+
+      <!-- Displays presentation progress, max value changes via JS to reflect # of slides -->
+      <div class="progress"><span></span></div>
+
+    </div>
+
+    <script src="js/reveal.js"></script>
+
+    <!-- Optional libraries for code syntax highlighting and classList support in IE9 -->
+    <script src="lib/highlight.js"></script>
+    <script src="lib/classList.js"></script>
+
+    <script>
+      // Parse the query string into a key/value object
+    var query = {};
+    location.search.replace( /[A-Z0-9]+?=(\w*)/gi, function(a) {
+        query[ a.split( '=' ).shift() ] = a.split( '=' ).pop();
+        } );
+
+    // Fires when a slide with data-state=customevent is activated
+    Reveal.addEventListener( 'customevent', function() {
+        alert( '"customevent" has fired' );
+        } );
+
+    // Fires each time a new slide is activated
+    Reveal.addEventListener( 'slidechanged', function( event ) {
+        // event.indexh & event.indexv
+        } );
+
+    Reveal.initialize({
+        // Display controls in the bottom right corner
+    controls: true,
+
+    // Display a presentation progress bar
+    progress: true,
+
+    // If true; each slide will be pushed to the browser history
+    history: true,
+
+    // Loops the presentation, defaults to false
+    loop: false,
+
+    // Flags if mouse wheel navigation should be enabled
+    mouseWheel: true,
+
+    // Apply a 3D roll to links on hover
+    rollingLinks: true,
+
+    // UI style
+    theme: query.theme || 'default', // default/neon
+
+    // Transition style
+    transition: query.transition || 'default' // default/cube/page/concave/linear(2d)
+    });
+
+    hljs.initHighlightingOnLoad();
+
+    (function boom(){
+
+     if (!window.Showdown){
+     var scr = document.createElement('script');
+     scr.onload = boom;
+     scr.src = 'js/showdown.js';
+     document.body.appendChild(scr);
+     return;
+     }
+
+     [].forEach.call( document.querySelectorAll('[data-markdown]'), function  fn(elem){
+
+       // strip leading whitespace so it isn't evaluated as code
+       var text      = elem.innerHTML.replace(/\n\s*\n/g,'\n'),
+       // set indentation level so your markdown can be indented within your HTML
+       leadingws = text.match(/^\n?(\s*)/)[1].length,
+       regex     = new RegExp('\\n?\\s{' + leadingws + '}','g'),
+       md        = text.replace(regex,'\n'),
+       html      = (new Showdown.converter()).makeHtml(md);
+
+       // here, have sum HTML
+       elem.innerHTML = html;
+
+       });
+
+     }());
+ </script>
+
+  </body>
+</html>
