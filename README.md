@@ -1,3 +1,5 @@
-# MVC Module Magic
+# The UX of Language 
 
-The talk that I gave at BackboneConf 2012
+For jQuery Con SF 2012
+
+Based on my blog post: http://alexsexton.com/blog/2012/03/the-ux-of-language/
