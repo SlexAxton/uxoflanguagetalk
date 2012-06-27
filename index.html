@@ -237,6 +237,10 @@ print '&lt;/html>';
 
             &nbsp;
             *PHP* (Personal Home Page) is released.
+
+            <aside class="notes">
+              JSP and ASP were no better.
+            </aside>
           </section>
 
           <section data-markdown class="oneliner">
@@ -343,6 +347,24 @@ print '&lt;/html>';
           *>* You have 2 new messages.
         </section>
 
+        <section data-markdown class="oneliner">
+          ## What about?
+
+          You have X new message(s).
+
+          Messages you have: 2
+
+          <aside class="notes">
+            The first one is uggers
+            <br />
+            The second one is 'prefix' or 'postfix' interpolation, and it sucks to read.
+          </aside>
+        </section>
+
+        <section data-markdown class="oneliner">
+          # lol*no*
+        </section>
+
         <section data-markdown>
           ## Plural Branching
 
@@ -359,6 +381,11 @@ print '&lt;/html>';
 
         <section data-markdown class="oneliner">
           ## Let's add spanish...
+
+          <aside class="notes">
+            If you're saying "I don't need to i18n my app" - I'll
+            get back to why this applies to you just as much.
+          </aside>
         </section>
 
         <section data-markdown>
@@ -535,7 +562,7 @@ mt  or  ro  sk  sr  ta  tl  ur
           </section>
           <section data-markdown class="oneliner">
             ## Not to mention *authoring* templates
-            ## with no messages to be seen
+            ## with no messages in view
             ## starts to suck fast.
           </section>
         </section>
@@ -543,8 +570,6 @@ mt  or  ro  sk  sr  ta  tl  ur
         <section data-markdown class="oneliner">
           # Back to *Stallman*
         </section>
-
-
 
         <section>
           <section data-markdown>
@@ -570,12 +595,12 @@ mt  or  ro  sk  sr  ta  tl  ur
             &nbsp; "locale" : "en_US",
               "plural_form" : function (n) {
                 if (n === 1) {
-                  return 1;
+                  return 0;
                 }
-                return 0;
+                return 1;
               },
               "messages" : {
-                "key" : [
+                "There is 1 message." : [
                   "There is 1 message.",
                   "There are %d messages."
                 ]
@@ -593,9 +618,105 @@ mt  or  ro  sk  sr  ta  tl  ur
 
             &nbsp;
 
-            <pre><code contenteditable>var msg = gettext('key', msg_count);
+            <pre><code contenteditable>var msg = ngettext(
+              'There is 1 message',
+              'There are %d messages.',
+              msg_count
+            );
             return sprintf(msg, msg_count);
             </code></pre>
+
+            <aside class="notes">
+              In this case, if the key didn't exist
+            </aside>
+          </section>
+
+          <section data-markdown>
+            ## The *English* Plural Form
+
+&nbsp;
+
+            <pre><code contenteditable>function (n) {
+  if (n === 1) {
+    return 0;
+  }
+  return 1;
+}</code></pre>
+
+            <aside class="notes">
+              In order to make this more easily digestible,
+              these are not the official functions.
+
+              The real .po format has nulls and strings
+              that define plural_forms. Not worth explaining.
+            </aside>
+          </section>
+
+          <section data-markdown>
+            ## The *Spanish* Plural Form
+
+&nbsp;
+
+            <pre><code contenteditable>function (n) {
+  if (n === 1) {
+    return 0;
+  }
+  return 1;
+}</code></pre>
+          </section>
+
+          <section data-markdown>
+            ## The *French* Plural Form
+
+&nbsp;
+
+            <pre><code contenteditable>function (n) {
+  if (n == 1 || n == 0) {
+    return 0;
+  }
+  return 1;
+}</code></pre>
+          </section>
+
+          <section data-markdown>
+            ## The *Slovenian* Plural Form
+
+            <pre><code contenteditable>function (n) {
+  if ((n % 100) == 1) {
+    return 1;
+  }
+  if ((n % 100) == 2) {
+    return 2;
+  }
+  if ((n % 100) == 3 || (n % 100) == 4) {
+    return 3;
+  }
+  return 0;
+}</code></pre>
+          </section>
+
+          <section data-markdown>
+            ## Messages as Keys
+
+            &nbsp;
+
+            <pre><code contenteditable>My Template
+            &lt;h1&gt;Jimmy's Message Notifier&lt;/h1&gt;
+
+            &lt;p&gt;{{_ "There is 1 message." "There are %d messages." num_msgs}}&lt;/p&gt;
+            </code></pre>
+
+            <aside class="notes">
+              In many language the underscore is the shortcut function to gettext
+              <br />
+              On the serverside, these are fuzzy matched, a little tougher in JS, but doable.
+            </aside>
+          </section>
+
+          <section data-markdown class="oneliner">
+            ## Gettext will *prefix* existing keys with
+            ## your *context*. This can be used for
+            ## differentiating *gender* messages.
           </section>
 
           <section data-markdown>
@@ -608,11 +729,11 @@ mt  or  ro  sk  sr  ta  tl  ur
                 return 0;
               },
               "messages" : {
-                "male*key" : [
+                "male*He has 1 message." : [
                   "He has 1 message.",
                   "He has %d messages."
                 ],
-                "female*key" : [
+                "female*He has 1 message." : [
                   "She has 1 message.",
                   "She has %d messages."
                 ]
@@ -621,7 +742,95 @@ mt  or  ro  sk  sr  ta  tl  ur
 
             <aside class="notes">
               It's actually a non-display unicode character that's used as the sentinel.
+              <br />
+              You could also do 'other' for unknown.
             </aside>
+          </section>
+
+          <section data-markdown>
+            ## So, for gender...
+
+            <pre style="margin-top:9%;" class="thin"><code contenteditable>pgettext("He liked it", gender);</code></pre>
+            <aside class="notes">
+              For some reason `p` means 'context' but we'll go with it.
+            </aside>
+          </section>
+
+          <section data-markdown>
+            ## Common Mistake
+
+            <pre style="margin-top:8%;"><code>gettext("I like my red ") + gettext('shirt');</code></pre>
+          </section>
+
+          <section data-markdown class="oneliner">
+            ## You *cannot ever* rely on being able to
+            ## concatenate two translated strings into
+            ## a *single message*.
+          </section>
+
+          <section data-markdown class="oneliner">
+            ## I like my *red* shirt
+
+            # vs.
+
+            ## Me gusta mi camisa *roja*
+
+            <aside class="notes">
+              This is a contrived example, but it holds true in a lot
+              of real world situations.
+            </aside>
+          </section>
+
+        </section>
+
+        <section>
+          <section data-markdown class="oneliner">
+            ## What do we have now?
+          </section>
+
+          <section data-markdown class="oneliner">
+            ## We can *pluralize* our message.
+          </section>
+
+          <section data-markdown class="oneliner">
+            ## We can *interpolate* our message.
+          </section>
+
+          <section data-markdown class="oneliner">
+            ## We can *pluralize* our message
+            ## correctly for each *locale*.
+          </section>
+
+          <section data-markdown class="oneliner">
+            ## We can have templates with messages
+            ## *kind of* in them. At least readably.
+          </section>
+
+          <section data-markdown class="oneliner">
+            ## We can use gender specific words as the
+            ## locale requires.
+
+            <aside class="notes">
+              Some languages don't really have gender-inspecific ways of saying things.
+              <br />
+              English barely does.
+            </aside>
+          </section>
+
+          <section data-markdown class="oneliner">
+            ## Gettext seems to do a good job at
+            ## our *core concerns* across locales.
+          </section>
+
+          <section data-markdown class="oneliner">
+            ## Interpolation
+            ## Gender
+            ## Pluralization
+            ## Dev Happiness
+          </section>
+
+          <section data-markdown class="oneliner">
+            # That's why I wrote *Jed*
           </section>
         </section>
 
