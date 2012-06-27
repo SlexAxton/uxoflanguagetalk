@@ -56,6 +56,21 @@
       .reveal aside.notes {
         display: none;
       }
+      .reveal button {
+        font-size: 62px;
+        font-weight: bold;
+        padding: 10px;
+        background-color: transparent;
+        color: #AEEE00;
+        border: none;
+        line-height: 72px;
+        cursor: pointer;
+      }
+      .reveal button:hover {
+        font-size: 72px;
+        color: #FFFFFF;
+        line-height:72px;
+      }
     </style>
   </head>
 
@@ -864,7 +879,148 @@ Jed.sprintf( out, num );
             </code></pre>
           </section>
 
+          <section data-markdown class="oneliner">
+            # So what's *wrong* with it?
+          </section>
+        </section>
 
+        <section data-markdown class="oneliner">
+          ## Back to *just english*
+        </section>
+
+        <section data-markdown class="oneliner">
+          ## There are *3* messages from *2* people.
+        </section>
+
+        <section data-markdown class="oneliner">
+          # *uh oh*
+        </section>
+
+        <section data-markdown class="oneliner">
+          ## Gettext cannot handle multiple plurals
+          ## in the same message.
+        </section>
+
+        <section data-markdown class="oneliner">
+          ## What if I have a _real_ context?
+        </section>
+
+        <section>
+          <section data-markdown class="oneliner">
+            ## So what all is wrong with *gettext*?
+          </section>
+          <section data-markdown class="oneliner">
+            ## *Gettext* can only go one level deep on
+            ## any of its features.
+
+            <aside class="notes">
+              Two contexts? Two plurals?
+            </aside>
+          </section>
+          <section data-markdown class="oneliner">
+            ## It has a *C* API
+          </section>
+          <section>
+            <pre><code>gettext = function(key)
+dgettext = function(domain, key)
+dcgettext = function(domain, key, category)
+ngettext = function(singular, plural, value)
+dngettext = function(domain, singular, plural, value)
+dcngettext = function(domain, snr, plural, val, cat)
+pgettext = function(context, key)
+dpgettext = function(domain, context, key)
+npgettext = function(context, singular, plural, value)
+dnpgettext = function(domain, cnx, sngr, plural, val)
+dcnpgettext = function(dom, cnx, sngr, plurl, val, cat)
+</code></pre>
+          </section>
+          <section data-markdown class="oneliner">
+            ## Plural Forms are *repeated* each translation
+          </section>
+          <section data-markdown class="oneliner">
+            ## Even if *one word* changes
+            ## You have to retranslate the
+            ## *whole sentence*
+          </section>
+          <section data-markdown class="oneliner">
+            ## *Fuzzy* matching is hard in the client
+          </section>
+        </section>
+
+        <section data-markdown class="oneliner">
+          # Thanks *Norbert*
+
+          <aside class="notes">
+            Story about how Norbert convinced me to switch
+            to messageformat.
+          </aside>
+        </section>
+
+        <section>
+          <section data-markdown class="oneliner">
+            # ICU *MessageFormat*
+          </section>
+
+          <section data-markdown>
+            <h2 style="margin-top:-3%;">Try this again</h2>
+
+            <pre><code id="d1" contenteditable>You have {NUM_MSG, plural,
+                      one {1 message}
+                      other {# messages}
+                    }.
+            </code></pre>
+            ## *+*
+<pre><code id="d1-data" contenteditable>{
+  "NUM_MSG" : 1
+}
+</code></pre>
+            <button id="d1-run">=</button>
+            <pre><code id="d1-res"></code></pre>
+
+            <script>
+            function d1 () {
+              var msg_raw = document.getElementById('d1').innerText;
+              var mf = new MessageFormat();
+              var msg = mf.compile(msg_raw);
+              var data = JSON.parse(document.getElementById('d1-data').innerText);
+              document.getElementById('d1-res').innerHTML = msg(data);
+            }
+            d1();
+            window.addEventListener('load', function(){
+              document.getElementById('d1-run').onclick = d1;
+            });
+            </script>
+          </section>
+
+          <section data-markdown>
+            <pre style="margin-top:-3%;"><code id="d2" contenteditable>You have {NUM_MSG, plural,
+                      =0  {no new messages}
+                      one {1 message}
+                      other {# messages}
+                    }.
+            </code></pre>
+            ## *+*
+            <pre><code id="d2-data" contenteditable>{
+              "NUM_MSG" : 1
+            }
+            </code></pre>
+            <button id="d2-run">=</button>
+            <pre><code id="d2-res"></code></pre>
+
+            <script>
+            function d2 () {
+              var msg_raw = document.getElementById('d2').innerText;
+              var mf = new MessageFormat();
+              var msg = mf.compile(msg_raw);
+              var data = JSON.parse(document.getElementById('d2-data').innerText);
+              document.getElementById('d2-res').innerHTML = msg(data);
+            }
+            d2();
+            window.addEventListener('load', function(){
+              document.getElementById('d2-run').onclick = d2;
+            });
+            </script>
+          </section>
         </section>
       </div>
       <!--
