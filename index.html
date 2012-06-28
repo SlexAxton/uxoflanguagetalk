@@ -94,10 +94,6 @@
             // Delicously hacky. Look away.
           if( navigator.userAgent.match( /(iPhone|iPad|iPod|Android)/i ) ) document.write( '<p style="color: rgba(0,0,0,0.3); text-shadow: none;">('+'Tap to navigate'+')</p>' );
           </script>
-
-          <aside class="notes">
-            Notes for slide 1
-          </aside>
         </section>
 
         <section>
@@ -105,7 +101,7 @@
             # *Briefly*
 
             <aside class="notes">
-              Notes for slide 2
+              A Quick heads up to quell preconceived notions
             </aside>
           </section>
 
@@ -114,10 +110,6 @@
             someone who is talking on
             *The UX of Language*
             to speak eloquently.
-
-            <aside class="notes">
-              Notes for slide 2b
-            </aside>
           </section>
 
           <section data-markdown class="oneliner">
@@ -133,7 +125,7 @@
             *No Conozco Pantelones Verdes*
 
             <aside class="notes">
-              Notes for slide 2c
+              I do however do a convincing "Jersey accent"
             </aside>
           </section>
 
@@ -144,6 +136,29 @@
             with grace and restraint.
 
             *;)*
+          </section>
+
+          <section data-markdown class="oneliner">
+            ## This is less about *internationalization*
+            ## and more about *user experience*.
+
+            <aside class="notes">
+              Internationalization includes english.
+            </aside>
+          </section>
+
+          <section data-markdown class="oneliner">
+            ## Anytime you rely on data to output a *message*
+            ## you'll want to consider these problems.
+
+            <aside class="notes">
+              You may not think you do this that much.
+              There are 5 results.
+              You have 3 new messages.
+              Welcome, X, come see Y.
+              Your score is X.
+              You need X more points to continue.
+            </aside>
           </section>
         </section>
 
@@ -198,6 +213,10 @@
 
             &nbsp;
             Static text files ruled the web.
+
+            <aside class="notes">
+              The web was for "documents."
+            </aside>
           </section>
 
           <section data-markdown class="oneliner">
@@ -208,12 +227,16 @@
             People desire to
             *customize content*
             based on the person on the page
+
+            <aside class="notes">
+              This is the fundamental shift that eventually turned into Web Apps.
+            </aside>
           </section>
 
           <section data-markdown class="oneliner">
             Enter the era of
             ## *Literally Just*
-            ## *Outputting Strings*
+            ## *Outputting Concatenated Strings*
           </section>
 
           <section data-markdown>
@@ -226,7 +249,9 @@ print '&lt;head>';
 print '&lt;title>Hello Word - First CGI Program&lt;/title>';
 print '&lt;/head>';
 print '&lt;body>';
-print '&lt;h2>Hello Word! This is my 1st CGI app!&lt;/h2>';
+print '&lt;h2>Hello '
+print $USERNAME;
+print '! This is my 1st CGI app!&lt;/h2>';
 print '&lt;/body>';
 print '&lt;/html>';
 &nbsp;
@@ -255,6 +280,8 @@ print '&lt;/html>';
 
             <aside class="notes">
               JSP and ASP were no better.
+              There are plenty of apps that still look like this today.
+              Check out open source forum software.
             </aside>
           </section>
 
@@ -276,6 +303,14 @@ print '&lt;/html>';
 
             &nbsp;
             *Logicless templates* come into popularity
+
+            <aside class="notes">
+              This is a whole talk on it's own.
+              But let's assume that most people don't want TOO MUCH
+              of their app logic inside their html templates.
+
+              NEXT: we'll concede that this is 'solved' for time's sake.
+            </aside>
           </section>
 
         </section>
@@ -337,6 +372,12 @@ print '&lt;/html>';
           Our traditional way of concatenating
           strings together is *not sufficient*
           when those strings form a sentence.
+
+          <aside class="notes">
+            Especially true if you want to eventually support multiple languages.
+
+            Still true if you just do english.
+          </aside>
         </section>
 
         <section data-markdown class="oneliner">
@@ -427,6 +468,10 @@ print '&lt;/html>';
         <section data-markdown class="oneliner">
           ## Pretty ugly, and coupled
           ## directly into your _app_ code.
+
+          <aside class="notes">
+            There's almost no good place to put this code.
+          </aside>
         </section>
 
         <section>
@@ -453,7 +498,7 @@ mt  or  ro  sk  sr  ta  tl  ur
           </section>
 
           <section data-markdown class="oneliner">
-            <h2 style="margin-top:-5%;">Where's your</h2>
+            <h2 style="margin-top:-6%;">Where's your</h2>
 
             ## *if-statement-pluralization*
             # *God*
@@ -501,6 +546,15 @@ mt  or  ro  sk  sr  ta  tl  ur
           <section data-markdown class="oneliner">
             ## Usually just for i18n
             ### (if you can call it that)
+
+            <aside class="notes">
+              A lot of times when I ask folks if they have i18n support.
+              They say: we have properties files.
+
+              Same as, "is this tv HD?"
+
+              "It has pixels."
+            </aside>
           </section>
 
           <section data-markdown>
@@ -516,6 +570,10 @@ mt  or  ro  sk  sr  ta  tl  ur
               "invalid_msg" : "Por favor, trya againo"
             };
             </code></pre>
+
+            <aside class="notes">
+              These must be translated in a vaccuum with no context to the alternate translations or the page.
+            </aside>
           </section>
 
           <section data-markdown>
@@ -562,6 +620,11 @@ mt  or  ro  sk  sr  ta  tl  ur
             &nbsp;
 
             ## Look *familiar*?
+
+            <aside class="notes">
+              This is worse than when we had if statements.
+              And now our templates suck.
+            </aside>
           </section>
         </section>
 
@@ -596,6 +659,10 @@ mt  or  ro  sk  sr  ta  tl  ur
 
           <section data-markdown class="oneliner">
             ## Decouples data and message
+
+            <aside class="notes">
+              But more importantly... (NEXT)
+            </aside>
           </section>
 
           <section data-markdown class="oneliner">
@@ -621,6 +688,11 @@ mt  or  ro  sk  sr  ta  tl  ur
                 ]
               }
             }</code></pre>
+
+            <aside class="notes">
+              This is not a real .po file, but it's a simplified version.
+              So don't read toooo much into it.
+            </aside>
           </section>
 
           <section data-markdown>
@@ -642,7 +714,10 @@ mt  or  ro  sk  sr  ta  tl  ur
             </code></pre>
 
             <aside class="notes">
-              In this case, if the key didn't exist
+              In this case, if the key didn't exist it could still render.
+              This is nice for being lazy too.
+
+              The singular string is the key
             </aside>
           </section>
 
@@ -657,14 +732,6 @@ mt  or  ro  sk  sr  ta  tl  ur
   }
   return 1;
 }</code></pre>
-
-            <aside class="notes">
-              In order to make this more easily digestible,
-              these are not the official functions.
-
-              The real .po format has nulls and strings
-              that define plural_forms. Not worth explaining.
-            </aside>
           </section>
 
           <section data-markdown>
@@ -829,6 +896,7 @@ mt  or  ro  sk  sr  ta  tl  ur
               Some languages don't really have gender-inspecific ways of saying things.
               <br />
               English barely does.
+              It means "as if the person is too far away to recognize their gender"
             </aside>
           </section>
 
@@ -890,6 +958,13 @@ Jed.sprintf( out, num );
 
         <section data-markdown class="oneliner">
           ## There are *3* messages from *2* people.
+
+          <aside class="notes">
+            The next slide is uh oh.
+
+            NOTE: We'll get back to explaining why this is hard
+            in the ICU section
+          </aside>
         </section>
 
         <section data-markdown class="oneliner">
@@ -974,6 +1049,8 @@ dcnpgettext = function(dom, cnx, sngr, plurl, val, cat)
 
             <aside class="notes">
               ICU Defines a plural function that maps any positive integer to one of these keywords
+              in every language
+              They don't always exactly match but translators can be trained to use them
             </aside>
           </section>
 
@@ -1091,6 +1168,10 @@ dcnpgettext = function(dom, cnx, sngr, plurl, val, cat)
             &nbsp;
 
             There are 5 results in 2 categories
+
+            <aside class="notes">
+              With if statements in a single language, we've exploded to 4 branches.
+            </aside>
           </section>
 
           <section data-markdown>
@@ -1101,6 +1182,10 @@ dcnpgettext = function(dom, cnx, sngr, plurl, val, cat)
             &nbsp;
 
             He received 5 results in 2 categories
+
+            <aside class="notes">
+              Now we've exploded to 12 branches. he, she, they
+            </aside>
           </section>
 
           <section data-markdown>
@@ -1222,12 +1307,24 @@ dcnpgettext = function(dom, cnx, sngr, plurl, val, cat)
             ## Translator friendly because all
             ## variations are translated
             ## *together*
+
+            <aside class="notes">
+              This means that you know all the variations during the translation.
+
+              This creates less 'umwhat?' translations from your translators.
+            </aside>
           </section>
 
           <section data-markdown class="oneliner">
             ## *NOT* Translator friendly because
             ## you pretty much have to be a programmer
             ## to use the *syntax*
+
+            <aside class="notes">
+              You essentially need a tool to help translators output this format.
+
+              Luckily this shouldn't be too difficult and I'm working on it.
+            </aside>
           </section>
         </section>
 
@@ -1244,6 +1341,13 @@ dcnpgettext = function(dom, cnx, sngr, plurl, val, cat)
             ## Uses Peg.js
 
             ![img/mfpeg.png](img/mfpeg.png)
+
+            <aside class="notes">
+              There's JISON and stuff too. This means you use a set of symbols
+              to generate an AST that you can pull in as parsed data.
+
+              This generates a javascript file that can do this for you automatically.
+            </aside>
           </section>
 
           <section data-markdown>
@@ -1311,7 +1415,6 @@ dcnpgettext = function(dom, cnx, sngr, plurl, val, cat)
           </aside>
         </section>
 
-
         <section data-markdown class="oneliner">
           ## There's *no excuse* for sentence(s) like this.
         </section>
@@ -1330,14 +1433,7 @@ dcnpgettext = function(dom, cnx, sngr, plurl, val, cat)
           ### Alex Sexton | @SlexAxton | [alexsexton.com](http://alexsexton.com)
         </section>
       </div>
-      <!--
-          <pre class="thin"><code contenteditable>function Module () {
-            return {
-              someStuff: { ... }
-            };
-          }
-          </code></pre>
-      -->
+
       <!-- The navigational controls UI -->
       <aside class="controls">
         <a class="left" href="#">&#x25C4;</a>
