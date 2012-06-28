@@ -961,6 +961,58 @@ dcnpgettext = function(dom, cnx, sngr, plurl, val, cat)
             # ICU *MessageFormat*
           </section>
 
+          <section data-markdown class="oneliner">
+            ## MessageFormat
+            ## ==
+            ## *PluralFormat* + *SelectFormat*
+          </section>
+
+          <section data-markdown class="oneliner">
+            # PluralFormat
+
+            ## zero, one, two, few, many, other
+
+            <aside class="notes">
+              ICU Defines a plural function that maps any positive integer to one of these keywords
+            </aside>
+          </section>
+
+
+
+          <section data-markdown>
+            ## Plural Functions
+
+            &nbsp;
+
+            These are built into the spec, and pulled from [CLDR](http://cldr.unicode.org/)
+
+            <pre><code>function ( n ) {
+  if ( n === 1 ) {
+    return "one";
+  }
+  return "other";
+}           </code></pre>
+          </section>
+
+          <section data-markdown>
+            ## The most basic syntax overview
+            <pre><code contenteditable>// Text is just text
+            Literal
+            &nbsp;
+            // Wrap named variables in curlies
+            Literal {Variable}
+            &nbsp;
+            // For the formatting functions
+            // start with a variable, name the type of formatter
+            {Variable, plural||select,
+              // List your options
+              option1 {literal} // this is recursive at this point
+              option2 {literal2 OR anotherMessageFormat}
+              option3 {# = Variable}
+            }
+            </code></pre>
+          </section>
+
           <section data-markdown>
             <h2 style="margin-top:-3%;">Try this again</h2>
 
@@ -992,6 +1044,10 @@ dcnpgettext = function(dom, cnx, sngr, plurl, val, cat)
             </script>
           </section>
 
+          <section data-markdown class="oneliner">
+            ## ICU Plural Keywords + Literals
+          </section>
+
           <section data-markdown>
             <pre style="margin-top:-3%;"><code id="d2" contenteditable>You have {NUM_MSG, plural,
                       =0  {no new messages}
@@ -1021,6 +1077,257 @@ dcnpgettext = function(dom, cnx, sngr, plurl, val, cat)
             });
             </script>
           </section>
+
+          <section data-markdown class="oneliner">
+            ## For those of you who've been saying
+            # "But I *don't need* multiple languages"
+          </section>
+
+          <section data-markdown>
+            ## *Try this in just english*
+
+            &nbsp;
+
+            &nbsp;
+
+            There are 5 results in 2 categories
+          </section>
+
+          <section data-markdown>
+            ## *Even better*
+
+            &nbsp;
+
+            &nbsp;
+
+            He received 5 results in 2 categories
+          </section>
+
+          <section data-markdown>
+            <h2 style="margin-top:-3%;">Multiple Plurals</h2>
+            <pre><code id="d3" contenteditable>There {NRES, plural, one {is one result}
+  other {are # results}
+} in {NCAT, plural, one {one category}
+  other {# categories}
+}.</code></pre>
+            ## *+*
+            <pre><code id="d3-data" contenteditable>{ "NRES" : 5, "NCAT": 2 }</code></pre>
+            <button id="d3-run">=</button>
+            <pre><code id="d3-res"></code></pre>
+
+            <script>
+            function d3 () {
+              var msg_raw = document.getElementById('d3').innerText;
+              var mf = new MessageFormat();
+              var msg = mf.compile(msg_raw);
+              var data = JSON.parse(document.getElementById('d3-data').innerText);
+              document.getElementById('d3-res').innerHTML = msg(data);
+            }
+            d3();
+            window.addEventListener('load', function(){
+              document.getElementById('d3-run').onclick = d3;
+            });
+            </script>
+          </section>
+
+          <section data-markdown>
+            <h2 style="margin-top:-6%;">Select Format</h2>
+            <pre><code id="d4" contenteditable>{GEND, select, male {He} female{She} other{They}
+} found {NRES, plural, one {one result}
+  other {# results}
+} in {NCAT, plural, one {one category}
+  other {# categories}
+}.</code></pre>
+            ## *+*
+            <pre><code id="d4-data" contenteditable>{ "NRES" : 5, "NCAT": 2, "GEND" : "male" }</code></pre>
+            <button id="d4-run">=</button>
+            <pre><code id="d4-res"></code></pre>
+
+            <script>
+            function d4 () {
+              var msg_raw = document.getElementById('d4').innerText;
+              var mf = new MessageFormat();
+              var msg = mf.compile(msg_raw);
+              var data = JSON.parse(document.getElementById('d4-data').innerText);
+              document.getElementById('d4-res').innerHTML = msg(data);
+            }
+            d4();
+            window.addEventListener('load', function(){
+              document.getElementById('d4-run').onclick = d4;
+            });
+            </script>
+          </section>
+
+          <section data-markdown>
+            <h2 style="margin-top:-6%;">Named Args</h2>
+            <pre><code id="d5" contenteditable>{THE_ARG} is a named argument.</code></pre>
+            ## *+*
+            <pre><code id="d5-data" contenteditable>{ "THE_ARG" : "This Argument" }</code></pre>
+            <button id="d5-run">=</button>
+            <pre><code id="d5-res"></code></pre>
+
+            <script>
+            function d5 () {
+              var msg_raw = document.getElementById('d5').innerText;
+              var mf = new MessageFormat();
+              var msg = mf.compile(msg_raw);
+              var data = JSON.parse(document.getElementById('d5-data').innerText);
+              document.getElementById('d5-res').innerHTML = msg(data);
+            }
+            d5();
+            window.addEventListener('load', function(){
+              document.getElementById('d5-run').onclick = d5;
+            });
+            </script>
+          </section>
+
+          <section data-markdown>
+            <h2 style="margin-top:-6%;">Plugins</h2>
+            <pre><code id="d6" contenteditable style="font-size:15px;line-height:17px;">{PERSON} added {PLURAL_NUM_PEOPLE, plural, offset:1
+     =0 {no one}
+     =1 {just {GENDER, select, male {him} female {her} other{them}}self}
+    one {{GENDER, select, male {him} female {her} other{them}}self and one other person}
+  other {{GENDER, select, male {him} female {her} other{them}}self and # other people}
+} to {GENDER, select,
+   male {his}
+ female {her}
+  other {their}
+} group.</code></pre>
+            ## *+*
+            <pre><code id="d6-data" contenteditable style="font-size:20px;line-height:22px;">{ "PERSON" : "Alex", "PLURAL_NUM_PEOPLE" : 2, "GENDER": "male" }</code></pre>
+            <button id="d6-run">=</button>
+            <pre><code id="d6-res"></code></pre>
+
+            <aside class="notes">
+              Notice lots of things going on here.<br />
+              Nested PluralFormat and SelectFormat, Plural offset.
+            </aside>
+
+            <script>
+            function d6 () {
+              var msg_raw = document.getElementById('d6').innerText;
+              var mf = new MessageFormat();
+              var msg = mf.compile(msg_raw);
+              var data = JSON.parse(document.getElementById('d6-data').innerText);
+              document.getElementById('d6-res').innerHTML = msg(data);
+            }
+            d6();
+            window.addEventListener('load', function(){
+              document.getElementById('d6-run').onclick = d6;
+            });
+            </script>
+          </section>
+
+          <section data-markdown class="oneliner">
+            ## Translator friendly because all
+            ## variations are translated
+            ## *together*
+          </section>
+
+          <section data-markdown class="oneliner">
+            ## *NOT* Translator friendly because
+            ## you pretty much have to be a programmer
+            ## to use the *syntax*
+          </section>
+        </section>
+
+        <section data-markdown>
+          ![img/mfjs.png](img/mfjs.png)
+        </section>
+
+        <section>
+          <section data-markdown class="oneliner">
+            ## *Compile-able*
+          </section>
+
+          <section data-markdown>
+            ## Uses Peg.js
+
+            ![img/mfpeg.png](img/mfpeg.png)
+          </section>
+
+          <section data-markdown>
+            <h2 style="margin-top:-6%;">Outputs JavaScript</h2>
+            <pre><code id="d7" contenteditable>{THE_ARG} is a named argument.</code></pre>
+            ## *+*
+            <pre><code id="d7-data" contenteditable>(new MessageFormat()).precompile()</code></pre>
+            <button id="d7-run">=</button>
+            <pre><code id="d7-res" style="font-size:20px;line-height:22px;"></code></pre>
+
+            <script>
+            function d7 () {
+              var msg_raw = document.getElementById('d7').innerText;
+              var mf = new MessageFormat();
+              var msg = mf.parse(msg_raw);
+              document.getElementById('d7-res').innerHTML = mf.precompile(msg);
+            }
+            d7();
+            window.addEventListener('load', function(){
+              document.getElementById('d7-run').onclick = d7;
+            });
+            </script>
+          </section>
+        </section>
+
+        <section data-markdown>
+          ## Integrates directly into Handlebars*
+
+          &nbsp;
+
+          <pre><code>&lt;div&gt;
+          {{#_ "key"}}
+            This is {NUM, plural,
+              one {a translated sentence}
+            other {multiple translated sentences}
+          {{/_}}
+          &lt;/div&gt;
+          </code></pre>
+        </section>
+
+        <section data-markdown>
+          ## So what does it all mean?
+
+          &nbsp;
+
+          ![img/doublerainbow.jpg](img/doublerainbow.jpg)
+        </section>
+
+        <section data-markdown class="oneliner">
+          ## It is *extremely easy* to just wrap your messages
+          ## with a message formatting wrapper.
+        </section>
+
+        <section data-markdown class="oneliner">
+          ## *Even if* you don't have
+          ## any intention of internationalizing.
+        </section>
+
+        <section data-markdown class="oneliner">
+          ## *Date* and *Number* formatting are important too
+          ## if you are internationalizing your app.
+
+          <aside class="notes">
+            Commas as periods, cats and dogs living together
+          </aside>
+        </section>
+
+
+        <section data-markdown class="oneliner">
+          ## There's *no excuse* for sentence(s) like this.
+        </section>
+
+        <section data-markdown class="oneliner">
+          ## The language *on* your site is *more* important
+          ## than the markup *in* your site.
+        </section>
+
+        <section data-markdown class="oneliner">
+          # *Treat it that way*
+        </section>
+
+        <section data-markdown class="oneliner">
+          ## Question(s)?
+          ### Alex Sexton | @SlexAxton | [alexsexton.com](http://alexsexton.com)
         </section>
       </div>
       <!--
