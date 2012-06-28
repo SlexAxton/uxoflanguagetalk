@@ -600,7 +600,7 @@ mt  or  ro  sk  sr  ta  tl  ur
           </section>
 
           <section data-markdown class="oneliner">
-            ## Lot's of time they'll add
+            ## Lots of time they'll add
             ## *`sprintf`*
           </section>
 
@@ -952,38 +952,35 @@ Jed.sprintf( out, num );
           </section>
         </section>
 
-        <section data-markdown class="oneliner">
-          ## Back to *just english*
-        </section>
-
-        <section data-markdown class="oneliner">
-          ## There are *3* messages from *2* people.
-
-          <aside class="notes">
-            The next slide is uh oh.
-
-            NOTE: We'll get back to explaining why this is hard
-            in the ICU section
-          </aside>
-        </section>
-
-        <section data-markdown class="oneliner">
-          # *uh oh*
-        </section>
-
-        <section data-markdown class="oneliner">
-          ## Gettext cannot handle multiple plurals
-          ## in the same message.
-        </section>
-
-        <section data-markdown class="oneliner">
-          ## What if I have a _real_ context?
-        </section>
-
         <section>
           <section data-markdown class="oneliner">
-            ## So what all is wrong with *gettext*?
+            ## Back to *just english*
           </section>
+
+          <section data-markdown class="oneliner">
+            ## There are *3* messages from *2* people.
+
+            <aside class="notes">
+              The next slide is uh oh.
+
+              NOTE: We'll get back to explaining why this is hard
+              in the ICU section
+            </aside>
+          </section>
+
+          <section data-markdown class="oneliner">
+            # *uh oh*
+          </section>
+
+          <section data-markdown class="oneliner">
+            ## Gettext cannot handle multiple plurals
+            ## in the same message.
+          </section>
+
+          <section data-markdown class="oneliner">
+            ## What if I have a _real_ context?
+          </section>
+
           <section data-markdown class="oneliner">
             ## *Gettext* can only go one level deep on
             ## any of its features.
@@ -1019,6 +1016,9 @@ dcnpgettext = function(dom, cnx, sngr, plurl, val, cat)
           </section>
           <section data-markdown class="oneliner">
             ## *Fuzzy* matching is hard in the client
+          </section>
+          <section data-markdown class="oneliner">
+            ## Not very extensible.
           </section>
         </section>
 
@@ -1217,7 +1217,7 @@ dcnpgettext = function(dom, cnx, sngr, plurl, val, cat)
 
           <section data-markdown>
             <h2 style="margin-top:-6%;">Select Format</h2>
-            <pre><code id="d4" contenteditable>{GEND, select, male {He} female{She} other{They}
+            <pre><code id="d4" contenteditable>{GEND, select, male {He} female {She} other {They}
 } found {NRES, plural, one {one result}
   other {# results}
 } in {NCAT, plural, one {one category}
